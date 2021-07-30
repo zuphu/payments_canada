@@ -1,0 +1,64 @@
+<mat-form-field appearance="fill">
+  <mat-label>Start date:</mat-label>
+  <input
+    type="text"
+    [(ngModel)]="datePickerValue"
+    #date
+    matInput
+    placeholder="YYYY-MM-DD"
+  />
+</mat-form-field>
+<mat-form-field appearance="fill">
+  <mat-label>Time Period</mat-label>
+  <mat-select [(value)]="rangeValue" required>
+    <mat-option *ngFor="let range of ranges" [value]="range.value">
+      {{ range.viewValue }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+<button
+  mat-button
+  mat-raised-button
+  color="primary"
+  type="submit"
+  (click)="getServerData(undefined, true)"
+>
+  Apply filter
+</button>
+<br />
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  <ng-container matColumnDef="eventDate">
+    <th mat-header-cell *matHeaderCellDef>Date</th>
+    <td mat-cell *matCellDef="let element">{{ element.eventDate }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="eventType">
+    <th mat-header-cell *matHeaderCellDef>Type</th>
+    <td mat-cell *matCellDef="let element">{{ element.eventType }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="eventSummary">
+    <th mat-header-cell *matHeaderCellDef>Summary</th>
+    <td mat-cell *matCellDef="let element">{{ element.eventSummary }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="eventSize">
+    <th mat-header-cell *matHeaderCellDef>Size</th>
+    <td mat-cell *matCellDef="let element">{{ element.eventSize }}</td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr
+    mat-row
+    *matRowDef="let row; columns: displayedColumns"
+    (click)="getRecord(row)"
+  ></tr>
+</table>
+
+<mat-paginator
+  [pageSizeOptions]="[25]"
+  pageSize="25"
+  [length]="paginationDetails.totalElements"
+  showFirstLastButtons
+  (page)="pageEvent = getServerData($event, false)"
+></mat-paginator>
