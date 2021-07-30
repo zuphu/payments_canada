@@ -1,0 +1,11 @@
+version: "3.9"
+services:
+  angular:
+    build: ./frontend/
+    ports:
+      - "8081:80"
+  spring:
+    build: ./backend/
+    ports:
+      - "8080:8080"
+
